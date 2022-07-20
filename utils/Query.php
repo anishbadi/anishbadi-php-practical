@@ -35,7 +35,7 @@ class Query
      */
     public function select($cols): object
     {
-        $this->sql .= "SELECT " . implode(',',$cols);
+        $this->sql .= "SELECT " . implode(",", $cols);
         return $this;
     }
 

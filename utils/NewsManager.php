@@ -38,9 +38,13 @@ class NewsManager extends FormatData
     {
         try {
             $rows = $this->query
-                ->select(
-                    ['news.id','news.title','news.body','news.created_at','GROUP_CONCAT(CONCAT_WS(":", comment.id, comment.body) SEPARATOR ";") as comments']
-                )
+                ->select([
+                    "news.id",
+                    "news.title",
+                    "news.body",
+                    "news.created_at",
+                    'GROUP_CONCAT(CONCAT_WS(":", comment.id, comment.body) SEPARATOR ";") as comments',
+                ])
                 ->from("news")
                 ->leftJoin("comment ON comment.news_id = news.id")
                 ->groupBy("news.id")
@@ -66,7 +70,12 @@ class NewsManager extends FormatData
     {
         try {
             $rows = $this->query
-                ->select(['news.id','news.title','news.body','news.created_at'])
+                ->select([
+                    "news.id",
+                    "news.title",
+                    "news.body",
+                    "news.created_at",
+                ])
                 ->from("news")
                 ->get();
             return [
@@ -91,7 +100,7 @@ class NewsManager extends FormatData
     public function addNews($title, $body): array
     {
         try {
-			$res = [];
+            $res = [];
             if ($title && $body) {
                 $param = [
                     "title" => $title,
@@ -99,13 +108,13 @@ class NewsManager extends FormatData
                     "created_at" => date("Y-m-d"),
                 ];
                 $id = $this->query->insert("news", $param);
-				$res['error'] = false;
-				$res['data'] = $id;
+                $res["error"] = false;
+                $res["data"] = $id;
             } else {
-				$res['error'] = true;
-				$res['message'] = MESSAGE["AddNews"];
+                $res["error"] = true;
+                $res["message"] = MESSAGE["AddNews"];
             }
-			return $res;
+            return $res;
         } catch (\Exception $e) {
             return [
                 "error" => false,
@@ -123,16 +132,16 @@ class NewsManager extends FormatData
     public function deleteNews($id): array
     {
         try {
-			$res = [];
+            $res = [];
             if ($id) {
                 $this->query->delete("news", $id);
-				$res['error'] = false;
-				$res['message'] = MESSAGE["DeleteSucces"];
+                $res["error"] = false;
+                $res["message"] = MESSAGE["DeleteSucces"];
             } else {
-				$res['error'] = true;
-				$res['message'] = MESSAGE["NewsDelete"];
+                $res["error"] = true;
+                $res["message"] = MESSAGE["NewsDelete"];
             }
-			return $res;
+            return $res;
         } catch (\Exception $e) {
             return [
                 "error" => true,

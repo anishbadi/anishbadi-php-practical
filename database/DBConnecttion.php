@@ -67,7 +67,7 @@ class DBConnecttion
      * @return \PDO
      * @throws \Exception
      */
-    private function createConnection() : void
+    private function createConnection(): void
     {
         try {
             $dsn = $this->getDsn();
@@ -75,9 +75,9 @@ class DBConnecttion
             $password = $this->config["pass"];
             $this->pdo = new \PDO($dsn, $user, $password);
         } catch (\Exception $e) {
-			die($e->getMessage());
+            die($e->getMessage());
         }
     }
 }
- 
+
 ?>

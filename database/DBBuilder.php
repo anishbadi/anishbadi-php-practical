@@ -47,7 +47,7 @@ class DBBuilder
     public function fetch($sql): array
     {
         $sth = $this->pdo->query($sql);
-		$data = $sth->fetch();
+        $data = $sth->fetch();
         return !empty($data) ? $data : [];
     }
 

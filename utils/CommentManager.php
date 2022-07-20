@@ -38,7 +38,12 @@ class CommentManager extends FormatData
     {
         try {
             $rows = $this->query
-                ->select(["comment.body","comment.created_at","comment.id","comment.news_id"])
+                ->select([
+                    "comment.body",
+                    "comment.created_at",
+                    "comment.id",
+                    "comment.news_id",
+                ])
                 ->from("comment")
                 ->get();
             $comments = $this->formatCommentsData($rows);
@@ -64,32 +69,32 @@ class CommentManager extends FormatData
     public function addCommentForNews($body, $newsId): array
     {
         try {
-			$res = [];
+            $res = [];
             if ($newsId && $body) {
-				// Check News exist or not
+                // Check News exist or not
                 $check = $this->query
                     ->select(["id"])
                     ->from("news")
                     ->where("id=" . $newsId)
                     ->fetch();
                 if ($check) {
-					$param = [
-						"body" => $body,
-						"created_at" => date("Y-m-d"),
-						"news_id" => $newsId,
-					];
-					$insertedId = $this->query->insert("comment", $param);
-					$res['error'] = false;
-					$res['data'] = $insertedId;
-				} else {
-					$res['error'] = true;
-					$res['message'] = MESSAGE["NewsNotFound"];
-				}
+                    $param = [
+                        "body" => $body,
+                        "created_at" => date("Y-m-d"),
+                        "news_id" => $newsId,
+                    ];
+                    $insertedId = $this->query->insert("comment", $param);
+                    $res["error"] = false;
+                    $res["data"] = $insertedId;
+                } else {
+                    $res["error"] = true;
+                    $res["message"] = MESSAGE["NewsNotFound"];
+                }
             } else {
-				$res['error'] = true;
-				$res['message'] = MESSAGE["AddComment"];
+                $res["error"] = true;
+                $res["message"] = MESSAGE["AddComment"];
             }
-			return $res;
+            return $res;
         } catch (\Exception $e) {
             return [
                 "error" => false,
@@ -107,16 +112,16 @@ class CommentManager extends FormatData
     public function deleteComment($id): array
     {
         try {
-			$res = [];
+            $res = [];
             if ($id) {
                 $this->query->delete("comment", $id);
-                $res['error'] = false;
-				$res['message'] = MESSAGE["DeleteSucces"];
+                $res["error"] = false;
+                $res["message"] = MESSAGE["DeleteSucces"];
             } else {
-				$res['error'] = true;
-				$res['message'] = MESSAGE["CommentDelete"];
+                $res["error"] = true;
+                $res["message"] = MESSAGE["CommentDelete"];
             }
-			return $res;
+            return $res;
         } catch (\Exception $e) {
             return [
                 "error" => true,
